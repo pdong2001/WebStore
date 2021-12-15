@@ -118,7 +118,7 @@
                         <a class="search-switch"><img src="/home/img/icon/search.png" alt=""></a>
                         <a style="cursor:pointer;"><img src="/home/img/icon/heart.png" alt=""></a>
                         <a  asp-action="Cart"><img src="/home/img/icon/cart.png" alt=""> <span id="cart-count">@ViewData["CartCount"]</span></a>
-                        <div class="price">@ViewData["Total"]</div>
+                        <div id="total" class="price">@ViewData["Total"]</div>
                     </div>
                 </div>
             </div>
@@ -333,9 +333,6 @@
 
             /* var timerdate = "2020/12/30" */
 
-            $("#countdown").countdown(timerdate, function (event) {
-                $(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>Days</p> </div>" + "<div class='cd-item'><span>%H</span> <p>Hours</p> </div>" + "<div class='cd-item'><span>%M</span> <p>Minutes</p> </div>" + "<div class='cd-item'><span>%S</span> <p>Seconds</p> </div>"));
-            });
 
             /*------------------
                 Magnific
@@ -378,12 +375,11 @@
                     },
                     method: "POST",
                     success: (res, status, xhr) => {
-                        $('#cart-count').html(res.SoSanPham)
+                        $('#cart-count').html(res.soSanPham);
+                        $('#total').html(res.tongTien);
                     },
                     error: (xhr, status, er) => {
-                        if (xhr.status == 401) {
-                            window.open("@Url.PageLink("/Account/Login", null, new { area = "Identity" })");
-                        }
+                        window.open("@Url.PageLink("/Account/Login", null, new { area = "Identity" })");
                     }
                 });
             });

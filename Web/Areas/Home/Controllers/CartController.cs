@@ -13,6 +13,7 @@ using Web.Areas.Home.Models;
 namespace Web.Areas.Home.Controllers
 {
     [Area("Home")]
+    [Authorize(Roles = "NormalUser")]
     public class CartController : Controller
     {
         private readonly WebStoreDbContext _context;
@@ -23,7 +24,6 @@ namespace Web.Areas.Home.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<CartDto> AddCart(CreateUpdateCartDto request)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -56,7 +56,6 @@ namespace Web.Areas.Home.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<CartDto> AddOrUpdateCart(CreateUpdateCartDto request)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -88,7 +87,6 @@ namespace Web.Areas.Home.Controllers
             return dto;
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<CartDto> DeleteCart(int id)
         {

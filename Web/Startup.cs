@@ -30,12 +30,14 @@ namespace Web
                 }));
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddRazorPages();
-            services.AddIdentity<AppUser, IdentityRole>(options => {
+            services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
                 options.SignIn.RequireConfirmedAccount = false;
                 options.Password.RequireUppercase = false;
             })
                 .AddEntityFrameworkStores<WebStoreDbContext>()
                 .AddDefaultTokenProviders();
+            //services.AddDefaultIdentity<AppUser>().AddEntityFrameworkStores<WebStoreDbContext>();
             services.ConfigureApplicationCookie(opts => {
                 opts.LoginPath = "/Identity/Account/Login";
                 opts.AccessDeniedPath = "/Identity/Account/AccessDenied";

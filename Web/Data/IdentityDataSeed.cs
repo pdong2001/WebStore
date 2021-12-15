@@ -32,6 +32,22 @@ namespace Web.Data
                     userManager.AddToRoleAsync(user, "Admin").Wait();
                 }
             }
+
+            if (userManager.FindByNameAsync("user@user.test").Result == null)
+            {
+                AppUser user = new AppUser();
+                user.UserName = "user@user.test";
+                user.Email = "user@user.test";
+                user.Name = "Người dùng một";
+
+                IdentityResult result = userManager.CreateAsync
+                (user, "User@123").Result;
+
+                if (result.Succeeded)
+                {
+                    userManager.AddToRoleAsync(user, "NormalUser").Wait();
+                }
+            }
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)
