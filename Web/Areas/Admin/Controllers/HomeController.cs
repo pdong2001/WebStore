@@ -14,6 +14,7 @@ namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
+    [Route("{area}/[controller]/[action]/{id?}")]
     public class HomeController : Controller
     {
         private readonly WebStoreDbContext _context;
@@ -167,7 +168,7 @@ namespace Web.Areas.Admin.Controllers
                 {
                     if (webInfo.IsActivated)
                     {
-                        _context.WebInfos.Where(wi => wi.IsActivated).ToList().ForEach(wi => wi.IsActivated = false);
+                        _context.WebInfos.AsNoTracking().Where(wi => wi.IsActivated).ToList().ForEach(wi => wi.IsActivated = false);
                     }
                     _context.Update(webInfo);
                     await _context.SaveChangesAsync();

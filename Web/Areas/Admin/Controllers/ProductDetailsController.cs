@@ -95,6 +95,7 @@ namespace Web.Areas.Admin.Controllers
                     sanPham.MinPrice = min;
                     sanPham.MaxPrice = max;
                 });
+                sanPham.DefaultDetailId = _context.ChiTietSP.FirstOrDefault(sp => sp.Price == sanPham.MinPrice && sp.ItemId == sanPham.Id)?.Id;
                 await _context.SaveChangesAsync();
                 return Redirect(Url.Action(nameof(ProductsController.Details), "Products", new { id = chiTietSP.ItemId }));
             }
@@ -153,6 +154,7 @@ namespace Web.Areas.Admin.Controllers
                         sanPham.MinPrice = min;
                         sanPham.MaxPrice = max;
                     });
+                    sanPham.DefaultDetailId = _context.ChiTietSP.FirstOrDefault(sp => sp.Price == sanPham.MinPrice && sp.ItemId == sanPham.Id)?.Id;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -212,6 +214,7 @@ namespace Web.Areas.Admin.Controllers
                 sanPham.MaxPrice = max;
             });
             sanPham.Quantity -= chiTietSP.Quantity;
+            sanPham.DefaultDetailId = _context.ChiTietSP.FirstOrDefault(sp => sp.Price == sanPham.MinPrice && sp.ItemId == sanPham.Id)?.Id;
             await _context.SaveChangesAsync();
             return Redirect(Url.Action(nameof(ProductsController.Details), "Products", new { id = chiTietSP.ItemId }));
         }
