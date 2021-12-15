@@ -7,6 +7,7 @@
     <StartupObject>Web.Program</StartupObject>
     <ApplicationIcon />
     <Win32Resource />
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>

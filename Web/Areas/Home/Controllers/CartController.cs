@@ -13,7 +13,7 @@ using Web.Areas.Home.Models;
 namespace Web.Areas.Home.Controllers
 {
     [Area("Home")]
-    [Authorize(Roles = "NormalUser")]
+    [Authorize]
     public class CartController : Controller
     {
         private readonly WebStoreDbContext _context;

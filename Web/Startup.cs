@@ -31,10 +31,10 @@ namespace Web
             services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddRazorPages();
             services.AddIdentity<AppUser, IdentityRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = false;
-                options.Password.RequireUppercase = false;
-            })
+                {
+                    options.SignIn.RequireConfirmedAccount = false;
+                    options.Password.RequireUppercase = false;
+                })
                 .AddEntityFrameworkStores<WebStoreDbContext>()
                 .AddDefaultTokenProviders();
             //services.AddDefaultIdentity<AppUser>().AddEntityFrameworkStores<WebStoreDbContext>();
@@ -42,6 +42,7 @@ namespace Web
                 opts.LoginPath = "/Identity/Account/Login";
                 opts.AccessDeniedPath = "/Identity/Account/AccessDenied";
             });
+
             services.AddControllersWithViews();
 
             services.AddScoped<FileService>();
@@ -72,18 +73,11 @@ namespace Web
 
             IdentityDataSeed.SeedData(userManager, roleManager);
 
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Home}/{action=Index}/{id?}");
-            //    endpoints.MapRazorPages();
-            //});
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                  name: "areas",
-                  pattern: "{area=Home}/{controller=Home}/{action=Index}/{id?}"
+                    name: "areas",
+                    pattern: "{area=Home}/{controller=Home}/{action=Index}/{id?}"
                 );
                 endpoints.MapRazorPages();
             });

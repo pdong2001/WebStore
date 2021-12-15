@@ -14,7 +14,7 @@ namespace Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize(Roles = "Admin")]
-    [Route("{area}/[controller]/[action]/{id?}")]
+    [Route("[area]/{controller=Home}/{action=Index}/{id?}")]
     public class HomeController : Controller
     {
         private readonly WebStoreDbContext _context;

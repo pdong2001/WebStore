@@ -28,11 +28,11 @@
                                 </div>
                             </a>
                         </li>
-                        @for (int i = 0; i < sanPham.Details.Count; i++)
+                        @foreach (var item in sanPham.Details)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-@(i+2)" role="tab">
-                                    <div class="product__thumb__pic set-bg" data-setbg="/api/file/@sanPham.Details[i].ImageName">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-@item.Id" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="/api/file/@item.ImageName">
                                     </div>
                                 </a>
                             </li>
@@ -46,11 +46,11 @@
                                 <img src="/api/file/@sanPham.MainImageName" alt="">
                             </div>
                         </div>
-                        @for (int i = 0; i < sanPham.Details.Count; i++)
+                        @foreach (var item in sanPham.Details)
                         {
-                            <div class="tab-pane" id="tabs-@(i+2)" role="tabpanel">
+                            <div class="tab-pane" id="tabs-@item.Id" role="tabpanel">
                                 <div class="product__details__pic__item">
-                                    <img src="/api/file/@sanPham.Details[i].ImageName" alt="">
+                                    <img src="/api/file/@item.ImageName" alt="">
                                 </div>
                             </div>
                         }
@@ -177,6 +177,7 @@
             });
             $(".option-label").click(function () {
                 $('#price').html($(this).find('input[type="hidden"]').val());
+                $('a[href="#tabs-' + $(this).attr('for') + '"]').click();
             });
         });
     </script>

@@ -50,7 +50,7 @@ namespace Web.Areas.Home.Controllers
                 ViewData["Total"] = string.Format("{0:n0}đ", tongTien);
             }
             //Truyền thông tin trang chủ vào View
-            ViewData["News"] = _context.SanPham.AsNoTracking().OrderByDescending(sp => sp.Id).Take(4).ToList();
+            ViewData["News"] = _context.SanPham.AsNoTracking().Where(sp => sp.OptionCount > 0).OrderByDescending(sp => sp.Id).Take(4).ToList();
             var thongTin = _context.WebInfos.FirstOrDefault(wi => wi.IsActivated);
             ViewData["Data"] = thongTin;
             var dsLoaiSP = _context.LoaiSP.Where(lsp => lsp.IsActivated);
@@ -130,7 +130,7 @@ namespace Web.Areas.Home.Controllers
                 ViewData["CartCount"] = _context.UserItems.Where(ui => ui.UserId == userId).Count();
                 ViewData["Total"] = string.Format("{0:n0}đ", tongTien);
             }
-            var dssp = _context.SanPham.Where(sp => id == 0 || sp.CategoryId == id)
+            var dssp = _context.SanPham.Where(sp => sp.OptionCount > 0).Where(sp => id == 0 || sp.CategoryId == id)
                 .Where(sp => sp.MinPrice >= min || min == 0)
                 .Where(sp => sp.MaxPrice <= max || max == 0).ToList()
                 .Where(sp => Key.Count == 0
@@ -246,10 +246,39 @@ namespace Web.Areas.Home.Controllers
                 {
                     _context.UserItems.RemoveRange(gioHang);
                     _context.SaveChanges();
+                    return RedirectToAction(nameof(Contact));
                 }
             }
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(CheckOut));
+        }
+
+        public ActionResult Contact()
+        {
+            if (User == null || User.Identity == null || !User.Identity.IsAuthenticated)
+            {
+                ViewData["CartCount"] = 0;
+                ViewData["Total"] = string.Format("{0:n0}đ", 0);
+                ViewData["CartItems"] = new List<UserItem>();
+            }
+            else
+            {
+                var userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var data = _context.UserItems.Where(ui => ui.UserId == userId)
+                    .Include(ui => ui.ChiTietSP)
+                    .Include(ui => ui.ChiTietSP.SanPham).ToList();
+                ViewData["CartItems"] = data;
+                var dsGioHang = _context.UserItems.Where(ui => ui.UserId == userId).Include(ui => ui.ChiTietSP).ToList();
+                var tongTien = 0.0;
+                dsGioHang.ForEach(sp => tongTien += sp.ChiTietSP.Price * sp.SoLuong);
+                ViewData["CartCount"] = _context.UserItems.Where(ui => ui.UserId == userId).Count();
+                ViewData["Total"] = string.Format("{0:n0}đ", tongTien);
+            }
+            var dsLoaiSP = _context.LoaiSP.Where(lsp => lsp.IsActivated);
+            ViewData["DSLSP"] = dsLoaiSP.ToList();
+            ViewData["Data"] = _context.WebInfos.FirstOrDefault(wi => wi.IsActivated);
+
+            return View();
         }
     }
 }

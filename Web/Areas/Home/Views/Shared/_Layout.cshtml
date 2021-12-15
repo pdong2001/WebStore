@@ -109,7 +109,7 @@
                                     }
                                 </ul>
                             </li>
-                            <li><a href="/home/./contact.html">Liên hệ</a></li>
+                            <li><a asp-action="Contact">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -147,10 +147,10 @@
                     <div class="footer__widget">
                         <h6>Shopping</h6>
                         <ul>
-                            <li><a href="/home/#">Trang chủ</a></li>
-                            <li><a href="/home/#">Sản phẩm</a></li>
-                            <li><a href="/home/#">Loại sản phẩm</a></li>
-                            <li><a href="/home/#">Liên hệ</a></li>
+                            <li><a asp-action="Index">Trang chủ</a></li>
+                            <li><a asp-action="Products">Sản phẩm</a></li>
+                            <li><a asp-action="Products">Loại sản phẩm</a></li>
+                            <li><a asp-action="Contact">Liên hệ</a></li>
                         </ul>
                     </div>
                 </div>
@@ -337,9 +337,6 @@
             /*------------------
                 Magnific
             --------------------*/
-            $('.video-popup').magnificPopup({
-                type: 'iframe'
-            });
 
             /*-------------------
                 Quantity change
