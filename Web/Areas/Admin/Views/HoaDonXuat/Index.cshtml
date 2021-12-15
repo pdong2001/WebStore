@@ -1,0 +1,77 @@
+﻿@model IEnumerable<Data.Models.HoaDonXuat>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Đơn đặt hàng</h1>
+
+<p>
+    <a asp-action="Create">Tạo mới</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.User)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoDienThoai)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DiaChi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tinh)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Huyen)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Xa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TongTien)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoDienThoai)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiaChi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tinh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Huyen)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Xa)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @string.Format("{0:n0}đ", item.TongTien)
+            </td>
+            <td style="max-width: 175px; min-width: 120px;">
+                <a class="my-1 btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a>
+                <a class="my-1 btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                <a class="my-1 btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Data.Models.ThongTinWeb>
+
+@{
+    ViewData["Title"] = "Thông tin Website";
+}
+
+<h1>Danh sách thông tin website</h1>
+
+<p>
+    <a asp-action="Create">Tạo mới</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeroImageOneName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HeroImageTwoName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActivated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BrandName)
+            </td>
+            <td>
+                <img height="50" src="/api/file/@item.HeroImageOneName" />
+            </td>
+            <td>
+                <img height="50" src="/api/file/@item.HeroImageOneName" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActivated)
+            </td>
+            <td style="max-width: 175px; min-width: 120px;">
+                <a class="my-1 btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a>
+                <a class="my-1 btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
+                <a class="my-1 btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

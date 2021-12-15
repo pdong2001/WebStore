@@ -1,0 +1,164 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    List<Data.Models.UserItem> items = ViewData["CartItems"] as List<Data.Models.UserItem>;
+}
+
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Giỏ hàng</h4>
+                    <div class="breadcrumb__links">
+                        <a asp-action="Index" asp-controller="Home">Trang chủ</a>
+                        <a asp-action="Products" asp-controller="Home">Sản phẩm</a>
+                        <span>Giỏ hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Shopping Cart Section Begin -->
+<section class="shopping-cart spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="shopping__cart__table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sản phẩm</th>
+                                <th>Số lượng</th>
+                                <th>Tổng tiền</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="cart-container">
+                            @foreach (var item in items)
+                            {
+                            <tr>
+                                <td class="product__cart__item">
+                                    <div class="product__cart__item__pic">
+                                        <img height="90" width="90" src="/api/file/@(item.ChiTietSP.ImageName??item.ChiTietSP.SanPham.MainImageName)" alt="">
+                                    </div>
+                                    <div class="product__cart__item__text">
+                                        <h6>@item.ChiTietSP.SanPham.Name</h6>
+                                        <h5>@string.Format("{0:n0}", item.ChiTietSP.Price)đ</h5>
+                                    </div>
+                                </td>
+                                <td class="quantity__item" style="user-select:none; -webkit-user-select:none; -moz-user-select:none;">
+                                    <div class="quantity">
+                                        <div class="pro-qty-2">
+                                            <input type="text" value="@item.SoLuong">
+                                            <input type="hidden" value="@item.MaChiTietSP" />
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="cart__price">@string.Format("{0:n0}", (item.SoLuong * item.ChiTietSP.Price))đ</td>
+                                <td class="cart__close" style="user-select:none; -webkit-user-select:none; -moz-user-select:none;"><i class="fa fa-close"></i><input type="hidden" value="@item.MaChiTietSP" /></td>
+                            </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn">
+                            <a href="#">Tiếp tục mua xắm</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6">
+                        <div class="continue__btn update__btn">
+                            <a href="#"><i class="fa fa-spinner"></i>Làm mới giỏ hàng</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="cart__discount">
+                    <h6>Mã giảm giá</h6>
+                    <form>
+                        <input type="text" placeholder="Mã giảm giá">
+                        <button type="submit">Áp dụng</button>
+                    </form>
+                </div>
+                <div class="cart__total">
+                    <h6>Tổng giá trị giỏ hàng</h6>
+                    <ul>
+                        <li>Tạm tính <span id="subtotal">@ViewData["Total"]</span></li>
+                        <li>Tổng tiền <span id="total">@ViewData["Total"]</span></li>
+                    </ul>
+                    <a asp-action="CheckOut" class="primary-btn">Tiến hành đặt hàng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shopping Cart Section End -->
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('.cart__close i').click(function () {
+                $.ajax("@Url.ActionLink("DeleteCart", "Cart", new { area = "Home"})", {
+                    data: { id: $(this).next('input[type="hidden"]').val() },
+                    method: "POST",
+                    success: (res, status, xhr) => {
+                        $('#total, #subtotal').html(res.tongTien);
+                        $(this).parent().parent().remove();
+                    },
+                    error: (xhr, status, er) => {
+                        if (xhr.status == 401) {
+                            window.open("@Url.PageLink("/Account/Login", null, new { area = "Identity" })");
+                        }
+                    },
+                    mimeType: "application/json"
+                });
+            });
+            var proQty = $('.pro-qty-2');
+            proQty.prepend('<span class="fa fa-angle-left dec qtybtn"></span>');
+            proQty.append('<span class="fa fa-angle-right inc qtybtn"></span>');
+            proQty.on('click', '.qtybtn', function () {
+                var $button = $(this);
+                var oldValue = $button.parent().find('input[type="text"]').val();
+                if ($button.hasClass('inc')) {
+                    var newVal = parseFloat(oldValue) + 1;
+                } else {
+                    // Don't allow decrementing below zero
+                    if (oldValue > 0) {
+                        var newVal = parseFloat(oldValue) - 1;
+                    } else {
+                        newVal = 0;
+                    }
+                }
+                $button.parent().find('input[type="text"]').val(newVal);
+                var productId = $button.parent().find('input[type="hidden"]').val();
+                console.log($button.parent().find('input[type="hidden"]'));
+                $.ajax("@Url.ActionLink("AddOrUpdateCart", "Cart", new { area = "Home"})", {
+                    data: {
+                        maCTSP: productId,
+                        quantity: newVal
+                    },
+                    method: "POST",
+                    success: (res, status, xhr) => {
+                        $button.parent().find('input').parent().parent().parent().next('.cart__price').html(res.tienSanPhamMoi);
+                        $('#total, #subtotal').html(res.tongTien);
+                    },
+                    error: (xhr, status, er) => {
+                        if (xhr.status == 401) {
+                            window.open("@Url.PageLink("/Account/Login", null, new { area = "Identity" })");
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+}

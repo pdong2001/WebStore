@@ -1,0 +1,97 @@
+﻿@model Data.Models.SanPham
+
+@{
+    ViewData["Title"] = "Chi tiết sản phẩm";
+    ViewData["MaSP"] = Model.Id.ToString();
+}
+
+<h1>Chi tiết</h1>
+
+<div>
+    <h4>Sản phẩm</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Category)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Category.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ShowAtHome)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.ShowAtHome)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.OptionName)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.OptionName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.MainImageName)
+        </dt>
+        <dd class="col-sm-8">
+            <img height="100" src="/api/file/@Model.MainImageName" />
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.MinPrice)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.MinPrice)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.MaxPrice)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.MaxPrice)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.OptionCount)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.OptionCount)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Sold)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Sold)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.KeyWord)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.KeyWord)
+        </dd>
+        <dt class="col-12">
+            @Html.DisplayNameFor(model => model.Details)
+        </dt>
+        <dd class="col-12">
+            @await Html.PartialAsync("_DSChiTietSP", Model.Details, ViewData)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Chỉnh sửa</a>
+    <a class="btn btn-outline-primary" asp-action="Index">Quay lại danh sách</a>
+</div>

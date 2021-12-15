@@ -1,0 +1,23 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model Data.Models.SanPham
+
+<div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6">
+    <div class="product__item">
+        <div class="product__item__pic set-bg" data-setbg="/api/file/@Model.MainImageName">
+            <ul class="product__hover">
+                <li><a href="#"><img src="~/home/img/icon/heart.png" alt=""></a></li>
+                <li><a asp-action="ProductDetail" asp-controller="Home" asp-area="Home" asp-route-id="@Model.Id"><img src="~/home/img/icon/search.png" alt=""></a></li>
+            </ul>
+        </div>
+        <div class="product__item__text">
+            <h6>@Model.Name</h6>
+            <a class="add-cart" style="cursor:pointer;">+ Thêm vào giỏ hàng</a>
+            <input type="hidden" value="@Model.DefaultDetailId" />
+            <h5>Từ @string.Format("{0:n0}", Model.MinPrice)đ - @string.Format("{0:n0}", Model.MaxPrice)đ</h5>
+        </div>
+    </div>
+</div>

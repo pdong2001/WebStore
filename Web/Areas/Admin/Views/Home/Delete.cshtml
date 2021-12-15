@@ -1,0 +1,129 @@
+﻿@model Data.Models.ThongTinWeb
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>WebInfo</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.BrandName)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.BrandName)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.HeroContent)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.Raw(Model.HeroContent)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.HeroImageOneName)
+        </dt>
+        <dd class="col-sm-8">
+            <img height="100" src="/api/file/@Model.HeroImageOneName" />
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.HeroImageTwoName)
+        </dt>
+        <dd class="col-sm-8">
+            <img height="100" src="/api/file/@Model.HeroImageTwoName" />
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.BannerOneContent)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.BannerOneContent)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.BannerOneImageName)
+        </dt>
+        <dd class="col-sm-8">
+            <img height="100" src="/api/file/@Model.BannerOneImageName" />
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.BannerTwoContent)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.BannerTwoContent)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.BannerTwoImageName)
+        </dt>
+        <dd class="col-sm-8">
+            <img height="100" src="/api/file/@Model.BannerTwoImageName" />
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.BannerThreeContent)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.BannerThreeContent)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.BannerThreeImageName)
+        </dt>
+        <dd class="col-sm-8">
+            <img height="100" src="/api/file/@Model.BannerThreeImageName" />
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.LastestCaption)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.LastestCaption)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.GalleryContent)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.GalleryContent)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Letters)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.Letters)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.PinterestLink)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.PinterestLink)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.FacebookLink)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.FacebookLink)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.InstagramLink)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.InstagramLink)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.TwitterLink)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.TwitterLink)
+        </dd>
+        <dt class="col-sm-4">
+            @Html.DisplayNameFor(model => model.IsActivated)
+        </dt>
+        <dd class="col-sm-8">
+            @Html.DisplayFor(model => model.IsActivated)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa" class="btn btn-danger" />
+        <a class="btn btn-outline-primary" asp-action="Index">Quay lại danh sách</a>
+    </form>
+</div>

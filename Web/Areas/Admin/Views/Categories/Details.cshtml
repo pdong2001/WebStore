@@ -1,0 +1,42 @@
+﻿@model Data.Models.LoaiSP
+
+@{
+    ViewData["Title"] = "Chi tiết loại sản phẩm";
+}
+
+<h1>Chi tiết</h1>
+
+<div>
+    <h4>Loại sản phẩm</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.ItemsCount)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.ItemsCount)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.IsActivated)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.IsActivated)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Chính sửa</a> |
+    <a class="btn btn-outline-primary" asp-action="Index">Quay lại danh sách</a>
+</div>

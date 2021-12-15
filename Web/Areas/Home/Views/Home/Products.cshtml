@@ -1,0 +1,132 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    List<Data.Models.SanPham> dsSanPham = ViewData["DSSP"] as List<Data.Models.SanPham>;
+    List<Data.Models.LoaiSP> dsLoaiSanPham = ViewData["DSLSP"] as List<Data.Models.LoaiSP>;
+    Nullable<int> SoSPToiDa = ViewData["SoSPToiDa"] as Nullable<int>;
+    int SoTrang;
+    if (!int.TryParse(Context.Request.Query["page"], out SoTrang)) SoTrang = 1;
+}
+@using System.Text.RegularExpressions 
+
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Sản phẩm</h4>
+                    <div class="breadcrumb__links">
+                        <a asp-action="Index">Trang chủ</a>
+                        <span>Sản phẩm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Shop Section Begin -->
+<section class="shop spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="shop__sidebar">
+                    <div class="shop__sidebar__search">
+                        <form id="search">
+                            <input type="text" placeholder="Tìm kiếm...">
+                            <button type="submit"><span class="icon_search"></span></button>
+                        </form>
+                    </div>
+                    <div class="shop__sidebar__accordion">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseOne">Loại sản phẩm</a>
+                                </div>
+                                <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__categories">
+                                            <ul class="nice-scroll">
+                                                @foreach (var item in dsLoaiSanPham)
+                                                {
+                                                    <li><a asp-action="Products" asp-route-categoryid="@item.Id" asp-route-min="@Context.Request.Query.FirstOrDefault(key => key.Key == "min").Value" asp-route-max="@Context.Request.Query.FirstOrDefault(key => key.Key == "max").Value">@item.Name</a></li>
+                                                }
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-heading">
+                                    <a data-toggle="collapse" data-target="#collapseThree">Lọc theo giá</a>
+                                </div>
+                                <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="shop__sidebar__price">
+                                            <ul>
+                                                <li><a asp-route-min="0" asp-route-categoryid="@Context.Request.Query.FirstOrDefault(key => key.Key == "categoryid").Value" asp-route-max="100000">@string.Format("{0:n0}đ", 0) - @string.Format("{0:n0}đ", 100000)</a></li>
+                                                <li><a asp-route-categoryid="@Context.Request.Query.FirstOrDefault(key => key.Key == "categoryid").Value" asp-route-min="100000"  asp-route-max="200000">@string.Format("{0:n0}đ", 100000) - @string.Format("{0:n0}đ", 200000)</a></li>
+                                                <li><a asp-route-categoryid="@Context.Request.Query.FirstOrDefault(key => key.Key == "categoryid").Value" asp-route-min="200000"  asp-route-max="300000">@string.Format("{0:n0}đ", 200000) - @string.Format("{0:n0}đ", 300000)</a></li>
+                                                <li><a asp-route-categoryid="@Context.Request.Query.FirstOrDefault(key => key.Key == "categoryid").Value" asp-route-min="300000"  asp-route-max="400000">@string.Format("{0:n0}đ", 300000) - @string.Format("{0:n0}đ", 400000)</a></li>
+                                                <li><a asp-route-categoryid="@Context.Request.Query.FirstOrDefault(key => key.Key == "categoryid").Value" asp-route-min="500000">@string.Format("{0:n0}đ", 500000)+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9">
+                <div class="shop__product__option">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="shop__product__option__left">
+                                <p>Đang hiển thị @((SoTrang - 1) * 12) – @Math.Min((SoTrang * 12 + 12), SoSPToiDa.Value) của @SoSPToiDa.Value kết quả</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="shop__product__option__right">
+                                @*<p>Sort by Price:</p>
+                                <select>
+                                    <option value="">Low To High</option>
+                                    <option value="">$0 - $55</option>
+                                    <option value="">$55 - $100</option>
+                                </select>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    @foreach (var item in dsSanPham)
+                    {
+                        <partial name="_ProductItem" model="item" />
+                    }
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="product__pagination">
+                            @for (int i = 0 ; i < SoSPToiDa; i += 12)
+                            {
+                                <a asp-action="Products" asp-route-page="@(i/12+1)"  asp-route-categoryid="@Context.Request.Query.FirstOrDefault(key => key.Key == "categoryid").Value" asp-route-min="@Context.Request.Query.FirstOrDefault(key => key.Key == "min").Value" asp-route-max="@Context.Request.Query.FirstOrDefault(key => key.Key == "max").Value">@(i/12+1)</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shop Section End -->
+
+@section Scripts {
+    <script>
+        $('#search').submit(function (e) {
+            e.preventDefault();
+            window.location.href = "@Url.ActionLink("Products", "Home", new { area = "Home"})?search=" + $(this).find('input').val();
+        });
+    </script>
+}

@@ -1,0 +1,90 @@
+﻿@model Data.Models.HoaDonXuat
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>HoaDonXuat</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.User)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.DiaChi)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.DiaChi)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Tinh)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Tinh)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Huyen)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Huyen)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Xa)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Xa)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd class = "col-sm-8">
+            @string.Format("{0:n0}đ",Model.TongTien)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.PhiShip)
+        </dt>
+        <dd class="col-sm-8">
+            @string.Format("{0:n0}đ", Model.PhiShip)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.SoDienThoai)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.SoDienThoai)
+        </dd>
+        <dt class = "col-sm-4">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class = "col-sm-8">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-12">
+            Danh sách sản phẩm
+        </dt>
+        <dd class="col-12">
+            <partial name="_DSChiTietHDX" model="Model.Lines" view-data="ViewData" />
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-info" asp-action="Edit" asp-route-id="@Model.Id">Chỉnh sửa</a>
+    <a class="btn btn-outline-primary" asp-action="Index">Quay lại danh sách</a>
+</div>

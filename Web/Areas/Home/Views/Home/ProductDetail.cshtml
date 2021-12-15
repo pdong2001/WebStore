@@ -1,0 +1,183 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var sanPham = ViewData["SanPham"] as Data.Models.SanPham;
+}
+
+
+<!-- Shop Details Section Begin -->
+<section class="shop-details">
+    <div class="product__details__pic">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product__details__breadcrumb">
+                        <a href="./index.html">Trang chủ</a>
+                        <a href="./shop.html">Sản phẩm</a>
+                        <span>Chi tiết sản phẩm</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#tabs-1" role="tab">
+                                <div class="product__thumb__pic set-bg" data-setbg="/api/file/@sanPham.MainImageName">
+                                </div>
+                            </a>
+                        </li>
+                        @for (int i = 0; i < sanPham.Details.Count; i++)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" data-toggle="tab" href="#tabs-@(i+2)" role="tab">
+                                    <div class="product__thumb__pic set-bg" data-setbg="/api/file/@sanPham.Details[i].ImageName">
+                                    </div>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-lg-6 col-md-9">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="product__details__pic__item">
+                                <img src="/api/file/@sanPham.MainImageName" alt="">
+                            </div>
+                        </div>
+                        @for (int i = 0; i < sanPham.Details.Count; i++)
+                        {
+                            <div class="tab-pane" id="tabs-@(i+2)" role="tabpanel">
+                                <div class="product__details__pic__item">
+                                    <img src="/api/file/@sanPham.Details[i].ImageName" alt="">
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="product__details__content">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-8">
+                    <div class="product__details__text">
+                        <h4>@sanPham.Name</h4>
+                        @*<div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <span> - 5 Reviews</span>
+                        </div>*@
+                        <h3><a id="price">@string.Format("{0:n0}đ", sanPham.MinPrice)</a><span>@string.Format("{0:n0}đ",sanPham.MaxPrice)</span></h3>
+                        <div class="product__details__option">
+                            <div class="product__details__option__size">
+                                <span>@sanPham.OptionName:</span>
+                                @foreach (var item in sanPham.Details)
+                                {
+                                    <label class="option-label" for="@item.Id">
+                                        @item.Name
+                                        <input type="radio" id="@item.Id">
+                                        <input type="hidden" value="@string.Format("{0:n0}đ", item.Price)"/>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                        <div class="product__details__cart__option">
+                            <div class="quantity">
+                                <div class="pro-qty">
+                                    <input type="text" value="1">
+                                </div>
+                            </div>
+                            <a id="add-cart" class="primary-btn">Thêm vào giỏ hàng</a>
+                        </div>
+                        <div class="product__details__btns__option">
+                            <a href="#"><i class="fa fa-heart"></i> Thêm vào danh sách yêu thích</a>
+                        </div>
+                        <div class="product__details__last__option">
+                            <h5><span>Thanh toán an toàn</span></h5>
+                            <img src="/home/img/shop-details/details-payment.png" alt="">
+                            <ul>
+                                <li><span>SKU:</span> @sanPham.Id</li>
+                                <li><span>Loại sản phẩm:</span> @sanPham.Category.Name</li>
+                                <li><span>Từ khóa:</span> @sanPham.KeyWord?.Replace(";", ", ")</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="product__details__tab">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                                   role="tab">Mô tả sản phẩm</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="tabs-5" role="tabpanel">
+                                <div class="product__details__tab__content">
+                                    <div class="product__details__tab__content__item">
+                                        @Html.Raw(sanPham.Description)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Shop Details Section End -->
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var proQty = $('.pro-qty');
+            proQty.prepend('<span class="fa fa-angle-up dec qtybtn"></span>');
+            proQty.append('<span class="fa fa-angle-down inc qtybtn"></span>');
+            proQty.on('click', '.qtybtn', function () {
+                var $button = $(this);
+                var oldValue = $button.parent().find('input').val();
+                if ($button.hasClass('inc')) {
+                    var newVal = parseFloat(oldValue) + 1;
+                } else {
+                    // Don't allow decrementing below zero
+                    if (oldValue > 1) {
+                        var newVal = parseFloat(oldValue) - 1;
+                    } else {
+                        newVal = 1;
+                    }
+                }
+                $button.parent().find('input').val(newVal);
+            });
+            $(".add-cart").click(function () {
+                var productId = $('input[type="radio"]:checked').attr("id");
+                $.ajax("@Url.ActionLink("AddCart", "Cart", new { area = "Home"})", {
+                    data: {
+                        maCTSP: productId,
+                        quantity: $('.pro-qty').val()
+                    },
+                    method: "POST",
+                    success: (res, status, xhr) => {
+                        $('#cart-count').html(res.SoSanPham)
+                    },
+                    error: (xhr, status, er) => {
+                        if (xhr.status == 401) {
+                            window.open("@Url.PageLink("/Account/Login", null, new { area = "Identity" })");
+                        }
+                    }
+                });
+            });
+            $(".option-label").click(function () {
+                $('#price').html($(this).find('input[type="hidden"]').val());
+            });
+        });
+    </script>
+}

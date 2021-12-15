@@ -1,0 +1,107 @@
+﻿@model Data.Models.ThongTinWeb
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Chỉnh sửa</h1>
+
+<h4>Thông tin website</h4>
+<hr />
+<div>
+    <div>
+        <form class="row" asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group col-6">
+                <label asp-for="BrandName" class="control-label"></label>
+                <input asp-for="BrandName" class="form-control" />
+                <span asp-validation-for="BrandName" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="SliderFiles" class="control-label"></label>
+                <input asp-for="SliderFiles" class="form-control" />
+                <span asp-validation-for="SliderFiles" class="text-danger"></span>
+            </div>
+            <div class="form-group col-12">
+                <label asp-for="HeroContent" class="control-label"></label>
+                <textarea id="editor" asp-for="HeroContent" class="form-control"></textarea>
+                <span asp-validation-for="HeroContent" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="BannerOneContent" class="control-label"></label>
+                <input asp-for="BannerOneContent" class="form-control" />
+                <span asp-validation-for="BannerOneContent" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="BannerTwoContent" class="control-label"></label>
+                <input asp-for="BannerTwoContent" class="form-control" />
+                <span asp-validation-for="BannerTwoContent" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="BannerThreeContent" class="control-label"></label>
+                <input asp-for="BannerThreeContent" class="form-control" />
+                <span asp-validation-for="BannerThreeContent" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="BannerFiles" class="control-label"></label>
+                <input asp-for="BannerFiles" class="form-control" />
+                <span asp-validation-for="BannerFiles" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="LastestCaption" class="control-label"></label>
+                <input asp-for="LastestCaption" class="form-control" />
+                <span asp-validation-for="LastestCaption" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="GalleryContent" class="control-label"></label>
+                <input asp-for="GalleryContent" class="form-control" />
+                <span asp-validation-for="GalleryContent" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="Letters" class="control-label"></label>
+                <input asp-for="Letters" class="form-control" />
+                <span asp-validation-for="Letters" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="PinterestLink" class="control-label"></label>
+                <input asp-for="PinterestLink" class="form-control" />
+                <span asp-validation-for="PinterestLink" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="FacebookLink" class="control-label"></label>
+                <input asp-for="FacebookLink" class="form-control" />
+                <span asp-validation-for="FacebookLink" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="InstagramLink" class="control-label"></label>
+                <input asp-for="InstagramLink" class="form-control" />
+                <span asp-validation-for="InstagramLink" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="TwitterLink" class="control-label"></label>
+                <input asp-for="TwitterLink" class="form-control" />
+                <span asp-validation-for="TwitterLink" class="text-danger"></span>
+            </div>
+            <div class="form-group col-6">
+                <label asp-for="IsActivated" class="control-label"></label>
+                <input asp-for="IsActivated" class="form-control" />
+                <span asp-validation-for="IsActivated" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input class="btn btn-outline-success" type="submit" value="Lưu thay đổi" />
+                <a class="btn btn-outline-primary" asp-action="Index">Quay lại danh sách</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        var ckeditor;
+        $(function () {
+            CKEDITOR.replace("editor");
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

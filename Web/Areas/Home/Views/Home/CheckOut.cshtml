@@ -1,0 +1,117 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var dssp = ViewData["CartItems"] as List<Data.Models.UserItem>;
+}
+
+@model Data.Models.HoaDonXuat
+<!-- Breadcrumb Section Begin -->
+<section class="breadcrumb-option">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__text">
+                    <h4>Đặt hàng</h4>
+                    <div class="breadcrumb__links">
+                        <a asp-action="Index">Trang chủ</a>
+                        <a asp-action="Cart">Giỏ hàng</a>
+                        <span>Đặt hàng</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Breadcrumb Section End -->
+<!-- Checkout Section Begin -->
+<section class="checkout spad">
+    <div class="container">
+        <div class="checkout__form">
+            <form action="CheckOut" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-lg-8 col-md-6">
+                        <h6 class="coupon__code">
+                            @*<span class="icon_tag_alt"></span> Have a coupon? <a href="#">
+                                    Click
+                                    here
+                                </a> to enter your code*@
+                        </h6>
+                        <h6 class="checkout__title">Chi tiết hóa đơn</h6>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="checkout__input">
+                                    <p><span>*</span>: Bắt buộc</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Địa chỉ<span>*</span></p>
+                            <input asp-for="DiaChi" type="text" placeholder="Tên đường, số nhà,..." class="checkout__input__add">
+                            <span asp-validation-for="DiaChi" class="text-danger"></span>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Tỉnh/Thành phố<span>*</span></p>
+                            <input asp-for="Tinh" type="text">
+                            <span asp-validation-for="Tinh" class="text-danger"></span>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Quận/Huyện<span>*</span></p>
+                            <input asp-for="Huyen" type="text">
+                            <span asp-validation-for="Huyen" class="text-danger"></span>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Phường/Xã<span>*</span></p>
+                            <input asp-for="Xa" type="text">
+                            <span asp-validation-for="Xa" class="text-danger"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Số điện thoại<span>*</span></p>
+                                    <input asp-for="SoDienThoai" type="text">
+                                    <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="checkout__input">
+                                    <p>Đại chỉ Email</p>
+                                    <input asp-for="Email" type="email">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="checkout__input">
+                            <p>Ghi chú</p>
+                            <input type="text" placeholder="Ghi chú về đơn đặt hàng">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="checkout__order">
+                            <h4 class="order__title">Đơn đặt hàng của bạn</h4>
+                            <div class="checkout__order__products">Sản phẩm <span>Tổng số</span></div>
+                            <ul class="checkout__total__products">
+                                @foreach (var item in dssp)
+                                {
+                                    <li>@item.ChiTietSP.SanPham.Name - @item.ChiTietSP.Name<span>@string.Format("{0:n0}đ", item.SoLuong * item.ChiTietSP.Price)</span></li>
+
+                                }
+                            </ul>
+                            <ul class="checkout__total__all">
+                                <li>Tạm tính <span>@ViewData["Total"]</span></li>
+                                <li>Phí ship <span>@string.Format("{0:n0}đ", (double.Parse(ViewData["Total"].ToString().Replace(",", "").Replace("đ", "")) * 0.05))</span></li>
+                                <li>Tổng số <span>@string.Format("{0:n0}đ", (double.Parse(ViewData["Total"].ToString().Replace(",", "").Replace("đ", "")) * 1.05))</span></li>
+                            </ul>
+                            <button type="submit" class="site-btn">Đặt hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- Checkout Section End -->
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

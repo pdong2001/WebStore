@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Data.Models.ChiTietHDXuat>
+
+@{
+}
+
+<p>
+    <a asp-action="Create">Tạo mới</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ChiTietSP.SanPham.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChiTietSP)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gia)
+            </th>
+            @*<th></th>*@
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChiTietSP.SanPham.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChiTietSP.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gia)
+            </td>
+            @*<td>
+            @Html.ActionLink("Edit", "Edit", new { id = new ChiTietHDXLookUpDto() { MaHD = item.MaHDXuat, MaSP= item.MaChiTietSP } }) |
+            @Html.ActionLink("Details", "Details", new { id = new ChiTietHDXLookUpDto() { MaHD = item.MaHDXuat, MaSP = item.MaChiTietSP } }) |
+            @Html.ActionLink("Delete", "Delete", new { id = new ChiTietHDXLookUpDto() { MaHD = item.MaHDXuat, MaSP = item.MaChiTietSP } })
+        </td>*@
+        </tr>
+}
+    </tbody>
+</table>
