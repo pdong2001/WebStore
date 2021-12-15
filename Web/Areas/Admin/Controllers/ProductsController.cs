@@ -74,6 +74,12 @@ namespace Web.Areas.Admin.Controllers
             {
                 _context.Add(sanPham);
                 await _context.SaveChangesAsync();
+                var loaiSP = await _context.LoaiSP.FirstOrDefaultAsync(lsp => lsp.Id == sanPham.CategoryId);
+                if (loaiSP != null)
+                {
+                    loaiSP.ItemsCount = _context.SanPham.Count(sp => sp.CategoryId == loaiSP.Id);
+                    await _context.SaveChangesAsync();
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["CategoryId"] = new SelectList(_context.LoaiSP, "Id", "Name", sanPham.CategoryId);
@@ -120,6 +126,12 @@ namespace Web.Areas.Admin.Controllers
                 {
                     _context.Update(sanPham);
                     await _context.SaveChangesAsync();
+                    var loaiSP = await _context.LoaiSP.FirstOrDefaultAsync(lsp => lsp.Id == sanPham.CategoryId);
+                    if (loaiSP != null)
+                    {
+                        loaiSP.ItemsCount = _context.SanPham.Count(sp => sp.CategoryId == loaiSP.Id);
+                        await _context.SaveChangesAsync();
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -165,6 +177,12 @@ namespace Web.Areas.Admin.Controllers
             var sanPham = await _context.SanPham.FindAsync(id);
             _context.SanPham.Remove(sanPham);
             await _context.SaveChangesAsync();
+            var loaiSP = await _context.LoaiSP.FirstOrDefaultAsync(lsp => lsp.Id == sanPham.CategoryId);
+            if (loaiSP != null)
+            {
+                loaiSP.ItemsCount = _context.SanPham.Count(sp => sp.CategoryId == loaiSP.Id);
+                await _context.SaveChangesAsync();
+            }
             return RedirectToAction(nameof(Index));
         }
 
