@@ -31,7 +31,7 @@
                         @foreach (var item in sanPham.Details)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-@item.Id" role="tab">
+                                <a class="nav-link" data-toggle="tab" href="#tabsdt-@item.Id" role="tab">
                                     <div class="product__thumb__pic set-bg" data-setbg="/api/file/@item.ImageName">
                                     </div>
                                 </a>
@@ -48,7 +48,7 @@
                         </div>
                         @foreach (var item in sanPham.Details)
                         {
-                            <div class="tab-pane" id="tabs-@item.Id" role="tabpanel">
+                            <div class="tab-pane" id="tabsdt-@item.Id" role="tabpanel">
                                 <div class="product__details__pic__item">
                                     <img src="/api/file/@item.ImageName" alt="">
                                 </div>
@@ -65,15 +65,11 @@
                 <div class="col-lg-8">
                     <div class="product__details__text">
                         <h4>@sanPham.Name</h4>
-                        @*<div class="rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                            <span> - 5 Reviews</span>
-                        </div>*@
-                        <h3><a id="price">@string.Format("{0:n0}đ", sanPham.MinPrice)</a><span>@string.Format("{0:n0}đ",sanPham.MaxPrice)</span></h3>
+                        @if (Model.Quantity == 0)
+                        {
+                            <span class="label">Hết hàng</span>
+                        }
+                        <h3><a id="price">@string.Format("{0:n0}đ", sanPham.MinPrice)</a><span>@string.Format("{0:n0}đ", sanPham.MaxPrice)</span></h3>
                         <div class="product__details__option">
                             <div class="product__details__option__size">
                                 <span>@sanPham.OptionName:</span>
@@ -82,7 +78,7 @@
                                     <label class="option-label" for="@item.Id">
                                         @item.Name
                                         <input type="radio" id="@item.Id">
-                                        <input type="hidden" value="@string.Format("{0:n0}đ", item.Price)"/>
+                                        <input type="hidden" value="@string.Format("{0:n0}đ", item.Price)" />
                                     </label>
                                 }
                             </div>
@@ -157,16 +153,17 @@
                 }
                 $button.parent().find('input').val(newVal);
             });
-            $(".add-cart").click(function () {
-                var productId = $('input[type="radio"]:checked').attr("id");
+            $("#add-cart").click(function () {
+                var productId = $('.option-label.active').attr("for");
                 $.ajax("@Url.ActionLink("AddCart", "Cart", new { area = "Home"})", {
                     data: {
                         maCTSP: productId,
-                        quantity: $('.pro-qty').val()
+                        quantity: $('.pro-qty input').val()
                     },
                     method: "POST",
                     success: (res, status, xhr) => {
-                        $('#cart-count').html(res.SoSanPham)
+                        $('#cart-count').html(res.soSanPham);
+                        $('#total').html(res.tongTien);
                     },
                     error: (xhr, status, er) => {
                         if (xhr.status == 401) {
@@ -177,7 +174,7 @@
             });
             $(".option-label").click(function () {
                 $('#price').html($(this).find('input[type="hidden"]').val());
-                $('a[href="#tabs-' + $(this).attr('for') + '"]').click();
+                $('a[href="#tabsdt-' + $(this).attr('for') + '"]').click();
             });
         });
     </script>

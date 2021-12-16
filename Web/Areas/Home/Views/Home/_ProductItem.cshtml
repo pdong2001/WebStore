@@ -8,9 +8,14 @@
 <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6">
     <div class="product__item">
         <div class="product__item__pic set-bg" data-setbg="/api/file/@Model.MainImageName">
+            @if(Model.Quantity == 0)
+            {
+                <span class="label">Hết hàng</span>
+            }
             <ul class="product__hover">
                 <li><a href="#"><img src="~/home/img/icon/heart.png" alt=""></a></li>
                 <li><a asp-action="ProductDetail" asp-controller="Home" asp-area="Home" asp-route-id="@Model.Id"><img src="~/home/img/icon/search.png" alt=""></a></li>
+                <li></li>
             </ul>
         </div>
         <div class="product__item__text">
