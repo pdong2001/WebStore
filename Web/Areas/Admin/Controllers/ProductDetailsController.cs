@@ -71,7 +71,7 @@ namespace Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ItemId,Quantity,Unit,Price,Name,Note,ImageFile")] ChiTietSP chiTietSP)
+        public async Task<IActionResult> Create([Bind("ItemId,Unit,Price,Name,Note,ImageFile")] ChiTietSP chiTietSP)
         {
             if (chiTietSP.ImageFile != null)
             {
@@ -86,7 +86,6 @@ namespace Web.Areas.Admin.Controllers
                 var priceQuery = from detail in _context.ChiTietSP
                                  where detail.ItemId == chiTietSP.ItemId
                                  select detail.Price;
-                sanPham.Quantity += chiTietSP.Quantity;
                 var price = priceQuery.ToList();
                 sanPham.OptionCount++;
                 sanPham.MinPrice = 0;
@@ -125,7 +124,7 @@ namespace Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemId,Quantity,Unit,AverateReceiptPrice,Sold,Price,Name,Note,ImageName,Id")] ChiTietSP chiTietSP)
+        public async Task<IActionResult> Edit(int id, [Bind("ItemId,Unit,Sold,Price,Name,Note,ImageFile,Id")] ChiTietSP chiTietSP)
         {
             if (id != chiTietSP.Id)
             {
@@ -138,9 +137,11 @@ namespace Web.Areas.Admin.Controllers
                 {
                     var old = _context.ChiTietSP.AsNoTracking().SingleOrDefault(ct => ct.Id == id);
                     chiTietSP.ImageName = old.ImageName;
+                    if (chiTietSP.ImageFile != null)
+                    {
+                        chiTietSP.ImageName = await _fileService.Upload(chiTietSP.ImageFile);
+                    }
                     var sanPham = _context.SanPham.FirstOrDefault(sp => sp.Id == chiTietSP.ItemId);
-                    sanPham.Quantity -= old.Quantity;
-                    sanPham.Quantity += chiTietSP.Quantity;
                     chiTietSP.SanPham = sanPham;
                     _context.Update(chiTietSP);
                     await _context.SaveChangesAsync();
@@ -213,7 +214,6 @@ namespace Web.Areas.Admin.Controllers
                 sanPham.MinPrice = min;
                 sanPham.MaxPrice = max;
             });
-            sanPham.Quantity -= chiTietSP.Quantity;
             sanPham.DefaultDetailId = _context.ChiTietSP.FirstOrDefault(sp => sp.Price == sanPham.MinPrice && sp.ItemId == sanPham.Id)?.Id;
             await _context.SaveChangesAsync();
             return Redirect(Url.Action(nameof(ProductsController.Details), "Products", new { id = chiTietSP.ItemId }));

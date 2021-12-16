@@ -112,6 +112,16 @@ namespace Web.Areas.Admin.Controllers
             {
                 try
                 {
+                    var old = await _context.HoaDonXuat.FirstAsync(hdx => hdx.Id == id);
+                    if (old.Status != TrangThaiHoaDon.Completed && hoaDonXuat.Status == TrangThaiHoaDon.Completed)
+                    {
+                        var chiTietHD = _context.ChiTietHoaDonXuat.Include(ct => ct.ChiTietSP).Include(ct => ct.ChiTietSP.SanPham).Where(ct => ct.MaHDXuat == id);
+                        await chiTietHD.ForEachAsync(ct =>
+                        {
+                            ct.ChiTietSP.Sold += ct.SoLuong;
+                            ct.ChiTietSP.SanPham.Sold += ct.SoLuong;
+                        });
+                    }
                     _context.Update(hoaDonXuat);
                     await _context.SaveChangesAsync();
                 }

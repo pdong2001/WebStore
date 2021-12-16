@@ -28,9 +28,6 @@
                 @Html.DisplayNameFor(model => model.MainImageName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Quantity)
-            </th>
-            <th>
                 Khoảng giá
             </th>
             <th>
@@ -59,9 +56,6 @@
             </td>
             <td>
                 <img height="100" src="/api/file/@item.MainImageName" />
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.MinPrice) - @Html.DisplayFor(modelItem => item.MaxPrice)

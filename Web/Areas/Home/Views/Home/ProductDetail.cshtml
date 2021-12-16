@@ -31,7 +31,7 @@
                         @foreach (var item in sanPham.Details)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" data-toggle="tab" href="#tabs-@item.Id" role="tab">
+                                <a class="nav-link" data-toggle="tab" href="#tabsdt-@item.Id" role="tab">
                                     <div class="product__thumb__pic set-bg" data-setbg="/api/file/@item.ImageName">
                                     </div>
                                 </a>
@@ -43,14 +43,14 @@
                     <div class="tab-content">
                         <div class="tab-pane active" id="tabs-1" role="tabpanel">
                             <div class="product__details__pic__item">
-                                <img src="/api/file/@sanPham.MainImageName" alt="">
+                                <img style="height: 320px;" src="/api/file/@sanPham.MainImageName" alt="">
                             </div>
                         </div>
                         @foreach (var item in sanPham.Details)
                         {
-                            <div class="tab-pane" id="tabs-@item.Id" role="tabpanel">
+                            <div class="tab-pane" id="tabsdt-@item.Id" role="tabpanel">
                                 <div class="product__details__pic__item">
-                                    <img src="/api/file/@item.ImageName" alt="">
+                                    <img style="height: 320px;" src="/api/file/@item.ImageName" alt="">
                                 </div>
                             </div>
                         }
@@ -157,16 +157,17 @@
                 }
                 $button.parent().find('input').val(newVal);
             });
-            $(".add-cart").click(function () {
-                var productId = $('input[type="radio"]:checked').attr("id");
+            $("#add-cart").click(function () {
+                var productId = $('.option-label.active ').attr("for");
                 $.ajax("@Url.ActionLink("AddCart", "Cart", new { area = "Home"})", {
                     data: {
                         maCTSP: productId,
-                        quantity: $('.pro-qty').val()
+                        quantity: $('.pro-qty input').val()
                     },
                     method: "POST",
                     success: (res, status, xhr) => {
-                        $('#cart-count').html(res.SoSanPham)
+                        $('#cart-count').html(res.soSanPham)
+                        $('#total').html(res.tongTien)
                     },
                     error: (xhr, status, er) => {
                         if (xhr.status == 401) {
@@ -177,7 +178,7 @@
             });
             $(".option-label").click(function () {
                 $('#price').html($(this).find('input[type="hidden"]').val());
-                $('a[href="#tabs-' + $(this).attr('for') + '"]').click();
+                $('a[href="#tabsdt-' + $(this).attr('for') + '"]').click();
             });
         });
     </script>

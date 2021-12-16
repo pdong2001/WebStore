@@ -64,7 +64,7 @@ namespace Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,CategoryId,ShowAtHome,OptionName,MainImageFile,Quantity,MinPrice,MaxPrice,OptionCount,Sold,Description,KeyWord,DefaultDetailId,Id")] SanPham sanPham)
+        public async Task<IActionResult> Create([Bind("Name,CategoryId,ShowAtHome,OptionName,MainImageFile,MinPrice,MaxPrice,OptionCount,Sold,Description,KeyWord,DefaultDetailId,Id")] SanPham sanPham)
         {
             if (sanPham.MainImageFile != null)
             {
@@ -108,7 +108,7 @@ namespace Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,CategoryId,ShowAtHome,OptionName,MainImageFile,Quantity,MinPrice,MaxPrice,OptionCount,Sold,Description,KeyWord,DefaultDetailId,Id")] SanPham sanPham)
+        public async Task<IActionResult> Edit(int id, [Bind("Name,CategoryId,ShowAtHome,OptionName,MainImageFile,MinPrice,MaxPrice,OptionCount,Sold,Description,KeyWord,DefaultDetailId,Id")] SanPham sanPham)
         {
             var old = await _context.SanPham.AsNoTracking().FirstOrDefaultAsync(sp => sp.Id == id);
             sanPham.MainImageName = old.MainImageName;
