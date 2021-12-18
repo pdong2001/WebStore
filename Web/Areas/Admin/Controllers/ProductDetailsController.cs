@@ -125,7 +125,7 @@ namespace Web.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ItemId,Quantity,Unit,AverateReceiptPrice,Sold,Price,Name,Note,ImageName,Id")] ChiTietSP chiTietSP)
+        public async Task<IActionResult> Edit(int id, [Bind("ItemId,Quantity,Unit,AverateReceiptPrice,Sold,Price,Name,Note,ImageFile,Id")] ChiTietSP chiTietSP)
         {
             if (id != chiTietSP.Id)
             {
