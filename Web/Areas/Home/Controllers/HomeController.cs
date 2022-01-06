@@ -50,7 +50,7 @@ namespace Web.Areas.Home.Controllers
                 ViewData["Total"] = string.Format("{0:n0}đ", tongTien);
             }
             //Truyền thông tin trang chủ vào View
-            ViewData["News"] = _context.SanPham.AsNoTracking().Where(sp => sp.OptionCount > 0).OrderByDescending(sp => sp.Id).Take(4).ToList();
+            ViewData["News"] = _context.SanPham.AsNoTracking().Where(sp => sp.OptionCount > 0).OrderByDescending(sp => sp.Id).Take(8).ToList();
             var thongTin = _context.WebInfos.FirstOrDefault(wi => wi.IsActivated);
             ViewData["Data"] = thongTin;
             var dsLoaiSP = _context.LoaiSP.Where(lsp => lsp.IsActivated);

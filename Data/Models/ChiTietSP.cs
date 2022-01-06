@@ -9,6 +9,7 @@ namespace Data.Models
     public class ChiTietSP : Entity
     {
         [DisplayName("Sản phẩm")]
+        [Required]
         public int ItemId { get; set; }
 
         [DisplayName("Sản phẩm")]
@@ -19,6 +20,7 @@ namespace Data.Models
         public double Quantity { get; set; } = 0;
 
         [DisplayName("Đơn vị tính")]
+        [Required]
         public string Unit { get; set; }
 
         [DisplayName("Giá nhập TB")]
@@ -34,6 +36,7 @@ namespace Data.Models
         public double Price { get; set; } = 0;
 
         [DisplayName("Tên tùy chọn")]
+        [Required]
         public string Name { get; set; }
 
         [DisplayName("Ghi chú")]
