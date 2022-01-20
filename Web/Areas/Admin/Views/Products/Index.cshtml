@@ -5,6 +5,7 @@
     int totalRecord = (int)ViewData["TotalRecord"];
     int page;
     if (!int.TryParse(Context.Request.Query.FirstOrDefault(key => key.Key == "page").Value, out page)) page = 1;
+    int index = 1;
 }
 
 <h1>Danh sách sản phẩm</h1>
@@ -23,17 +24,16 @@
     }
   </ul>
 </nav>
+<h5>Đang hiển thị @(page*10-10) đến @(page*10>totalRecord? totalRecord : page*10) của @totalRecord sản phẩm</h5>
 <table class="table table-striped">
     <thead class="table-dark">
         <tr>
+            <th>STT</th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ShowAtHome)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OptionName)
@@ -59,14 +59,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+        <td>@(index++)</td>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ShowAtHome)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OptionName)
