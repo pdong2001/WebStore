@@ -28,7 +28,10 @@ namespace Web.Areas.Admin.Controllers
         // GET: Admin/Products
         public async Task<IActionResult> Index()
         {
-            var webStoreDbContext = _context.SanPham.Include(s => s.Category);
+            int page = 1;
+            if (HttpContext.Request.Query.ContainsKey("page")) int.TryParse(HttpContext.Request.Query["page"], out page);
+            var webStoreDbContext = _context.SanPham.Skip(page*10-10).Take(page*10).Include(s => s.Category);
+            ViewData["TotalRecord"] = await _context.SanPham.CountAsync();
             return View(await webStoreDbContext.ToListAsync());
         }
 

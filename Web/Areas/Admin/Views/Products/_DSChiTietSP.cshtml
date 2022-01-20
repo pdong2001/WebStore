@@ -60,11 +60,11 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Note)
                 </td>
-                <td style="max-width: 175px; min-width: 120px;">
-                    <a asp-controller="ProductDetails" class="my-1 btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a>
-                    <a asp-controller="ProductDetails" class="my-1 btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
-                    <a asp-controller="ProductDetails" class="my-1 btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
-                </td>
+            <td class="d-flex">
+                <a title="Chỉnh sửa" class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id"><i class="far fa-edit"></i></a>
+                <a title="Chi tiết" class="mx-1 btn btn-outline-info" asp-action="Details" asp-route-id="@item.Id"><i class="fas fa-info"></i></a>
+                <a title="Xóa" class="btn btn-outline-danger" asp-action="Delete" asp-route-id="@item.Id"><i class="far fa-trash-alt"></i></a>
+            </td>
             </tr>
         }
     </tbody>
